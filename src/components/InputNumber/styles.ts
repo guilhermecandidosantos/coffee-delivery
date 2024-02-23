@@ -15,7 +15,7 @@ export const InputContainer = styled.div`
 
   input[type='number'] {
     -moz-appearance: textfield;
-    max-width: 15px;
+    max-width: 18px;
     background: transparent;
     font-size: 1rem;
     text-align: end;
