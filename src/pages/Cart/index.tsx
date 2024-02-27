@@ -49,9 +49,9 @@ export function Cart() {
               </div>
             </PaymentTitleContainer>
             <PaymentMethod>
-              <Radio typePayment="credit" />
-              <Radio typePayment="debit" />
-              <Radio typePayment="money" />
+              <Radio typePayment="credit" description="Cartão de crédito" />
+              <Radio typePayment="debit" description="Cartão de débito" />
+              <Radio typePayment="money" description="Dinheiro" />
             </PaymentMethod>
           </PaymentContainer>
         </FormProvider>
