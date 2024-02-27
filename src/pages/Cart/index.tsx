@@ -1,110 +1,60 @@
-import {
-  Bank,
-  CreditCard,
-  CurrencyDollar,
-  MapPinLine,
-  Money,
-} from '@phosphor-icons/react'
+import { CurrencyDollar, MapPinLine } from '@phosphor-icons/react'
 import {
   AddressContainer,
   CartContainer,
   InfosContainer,
   PreviewContainer,
-  InputsContainer,
   AddressTitleContainer,
   PaymentContainer,
-  RadioContainer,
   PaymentMethod,
   PaymentTitleContainer,
   CoffeePreviewContainer,
   TotalContainer,
 } from './styles'
-import { useForm } from 'react-hook-form'
+import { useForm, FormProvider } from 'react-hook-form'
 import { CoffeePreview } from '../../components/CoffeePreview'
+import { InputsForm } from './InputsForm'
+import { Radio } from './Radio'
 
 export function Cart() {
-  const { register, handleSubmit, watch } = useForm()
+  const methods = useForm()
 
-  const paymentSelected = watch('paymentMethod')
+  const { handleSubmit } = methods
 
   function handleSubmitForm() {}
 
   return (
     <CartContainer onSubmit={handleSubmit(handleSubmitForm)}>
       <InfosContainer>
-        <h1>Complete seu pedido</h1>
-        <AddressContainer>
-          <AddressTitleContainer>
-            <MapPinLine size={20} />
-            <div>
-              <p>Endereço de Entrega</p>
-              <p>Informe o endereço onde deseja receber seu pedido</p>
-            </div>
-          </AddressTitleContainer>
+        <FormProvider {...methods}>
+          <h1>Complete seu pedido</h1>
+          <AddressContainer>
+            <AddressTitleContainer>
+              <MapPinLine size={20} />
+              <div>
+                <p>Endereço de Entrega</p>
+                <p>Informe o endereço onde deseja receber seu pedido</p>
+              </div>
+            </AddressTitleContainer>
 
-          <InputsContainer>
-            <input type="text" placeholder="CEP" {...register('zip')} />
-            <input type="text" placeholder="Rua" {...register('street')} />
-            <div>
-              <input type="text" placeholder="Número" {...register('number')} />
-              <input
-                type="text"
-                placeholder="Complemento"
-                {...register('complement')}
-              />
-            </div>
-            <div>
-              <input
-                type="text"
-                placeholder="Bairro"
-                {...register('district')}
-              />
-              <input type="text" placeholder="Cidade" {...register('city')} />
-              <input type="text" placeholder="UF" {...register('uf')} />
-            </div>
-          </InputsContainer>
-        </AddressContainer>
+            <InputsForm />
+          </AddressContainer>
 
-        <PaymentContainer>
-          <PaymentTitleContainer>
-            <CurrencyDollar size={18} />
-            <div>
-              <p>Endereço de Entrega</p>
-              <p>Informe o endereço onde deseja receber seu pedido</p>
-            </div>
-          </PaymentTitleContainer>
-          <PaymentMethod>
-            <RadioContainer data-state={paymentSelected === 'credit'}>
-              <input
-                type="radio"
-                {...register('paymentMethod')}
-                value="credit"
-              />
-              <CreditCard size={18} />
-              Cartão de credito
-            </RadioContainer>
-
-            <RadioContainer data-state={paymentSelected === 'debit'}>
-              <input
-                type="radio"
-                {...register('paymentMethod')}
-                value="debit"
-              />
-              <Bank size={18} />
-              Cartão de debito
-            </RadioContainer>
-
-            <RadioContainer data-state={paymentSelected === 'money'}>
-              <input
-                type="radio"
-                {...register('paymentMethod')}
-                value="money"
-              />
-              <Money size={18} />
-              Dinheiro
-            </RadioContainer>
-          </PaymentMethod>
-        </PaymentContainer>
+          <PaymentContainer>
+            <PaymentTitleContainer>
+              <CurrencyDollar size={18} />
+              <div>
+                <p>Endereço de Entrega</p>
+                <p>Informe o endereço onde deseja receber seu pedido</p>
+              </div>
+            </PaymentTitleContainer>
+            <PaymentMethod>
+              <Radio typePayment="credit" />
+              <Radio typePayment="debit" />
+              <Radio typePayment="money" />
+            </PaymentMethod>
+          </PaymentContainer>
+        </FormProvider>
       </InfosContainer>
 
       <PreviewContainer>

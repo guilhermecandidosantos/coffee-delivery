@@ -46,53 +46,6 @@ export const AddressTitleContainer = styled.div`
   }
 `
 
-export const InputsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
-  > input:first-child {
-    width: 11.6rem;
-  }
-
-  div {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  div:first-child {
-    input:last-child {
-      flex: 1;
-    }
-  }
-
-  div:last-child {
-    input:last-child {
-      max-width: 3rem;
-    }
-
-    input:nth-child(2) {
-      flex: 1;
-    }
-  }
-
-  input {
-    ${texts.fonts.textS};
-    font-weight: 400;
-    color: ${(props) => props.theme['base-text']};
-    padding: 0.75rem;
-    border-radius: 4px;
-
-    &::placeholder {
-      color: ${(props) => props.theme['base-label']};
-    }
-
-    &:focus {
-      box-shadow: 0 0 0 1px ${(props) => props.theme['yellow-dark']};
-    }
-  }
-`
-
 export const PaymentContainer = styled.div`
   padding: 2.5rem;
   background: ${(props) => props.theme['base-card']};
@@ -124,33 +77,6 @@ export const PaymentTitleContainer = styled.div`
   }
 `
 
-export const RadioContainer = styled.label`
-  padding: 1rem;
-  color: ${(props) => props.theme['base-text']};
-  background: ${(props) => props.theme['base-button']};
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  border: 1px solid transparent;
-  ${texts.fonts.buttonM};
-  cursor: pointer;
-  width: 100%;
-
-  &[data-state='true'] {
-    background: ${(props) => props.theme['purple-light']};
-    border: 1px solid ${(props) => props.theme['purple-dark']};
-  }
-
-  input {
-    display: none;
-  }
-
-  &:hover {
-    background: ${(props) => props.theme['base-hover']};
-    color: ${(props) => props.theme['base-subtitle']};
-  }
-`
 export const PreviewContainer = styled.div`
   width: 28rem;
 
