@@ -25,7 +25,7 @@ export const LocationText = styled.span`
   color: ${(props) => props.theme['purple-dark']};
   ${texts.fonts.textS};
 `
-export const CartIcon = styled.button`
+export const CartIcon = styled.a`
   border: 0;
   display: flex;
   justify-content: center;
