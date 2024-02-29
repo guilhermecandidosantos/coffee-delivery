@@ -15,8 +15,12 @@ import { useForm, FormProvider } from 'react-hook-form'
 import { CoffeePreview } from '../../components/CoffeePreview'
 import { InputsForm } from './InputsForm'
 import { Radio } from './Radio'
+import { useContext } from 'react'
+import { CartContext } from '../../context/CartContext'
+import dataJSON from '../../../data.json'
 
 export function Cart() {
+  const { cart, totalPriceCoffees } = useContext(CartContext)
   const methods = useForm()
 
   const { handleSubmit } = methods
@@ -60,13 +64,40 @@ export function Cart() {
       <PreviewContainer>
         <h1>Cafés selecionados</h1>
         <CoffeePreviewContainer>
-          <CoffeePreview />
-          <CoffeePreview />
+          {/* <CoffeePreview />
+          <CoffeePreview /> */}
+
+          {cart.map((c) => {
+            const coffeeData = dataJSON.coffees.find(
+              (coffee) => c.id === coffee.id,
+            )
+
+            let url = ''
+            if (coffeeData) {
+              const { image } = coffeeData
+              url = image
+            }
+            const image = url
+
+            const data = {
+              id: c.id,
+              title: c.title,
+              priceCoffee: c.priceCoffee,
+              quantityCoffees: c.quantityCoffees,
+              image,
+            }
+            return <CoffeePreview key={c.id} data={data} />
+          })}
 
           <TotalContainer>
             <div>
               <p>Total de itens</p>
-              <span>R$ 29,70</span>
+              <span>
+                R${' '}
+                {totalPriceCoffees.toLocaleString('pt-BR', {
+                  minimumFractionDigits: 2,
+                })}
+              </span>
             </div>
 
             <div>
@@ -76,7 +107,12 @@ export function Cart() {
 
             <div>
               <p>Total</p>
-              <span>R$ 33,20</span>
+              <span>
+                R${' '}
+                {(totalPriceCoffees + 3.5).toLocaleString('pt-BR', {
+                  minimumFractionDigits: 2,
+                })}
+              </span>
             </div>
           </TotalContainer>
 

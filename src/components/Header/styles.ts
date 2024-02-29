@@ -34,4 +34,21 @@ export const CartIcon = styled.a`
   background: ${(props) => props.theme['yellow-light']};
   border-radius: 4px;
   padding: 0.5rem;
+  position: relative;
+
+  > span {
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: ${(props) => props.theme['yellow-dark']};
+    color: ${(props) => props.theme.white};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    ${texts.fonts.textS};
+    font-weight: 700;
+  }
 `
