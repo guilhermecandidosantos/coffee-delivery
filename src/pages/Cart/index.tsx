@@ -18,14 +18,36 @@ import { Radio } from './Radio'
 import { useContext } from 'react'
 import { CartContext } from '../../context/CartContext'
 import dataJSON from '../../../data.json'
+import { useNavigate } from 'react-router-dom'
+import * as z from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+const formSchema = z.object({
+  zip: z.string().min(8),
+  street: z.string().min(1),
+  number: z.number().min(1),
+  complement: z.string().optional(),
+  district: z.string().min(1),
+  city: z.string().min(1),
+  uf: z.string().min(2).max(2),
+  paymentMethod: z.enum(['credit', 'debit', 'money']),
+})
+
+type FormSchemaType = z.infer<typeof formSchema>
 
 export function Cart() {
   const { cart, totalPriceCoffees } = useContext(CartContext)
-  const methods = useForm()
+  const methods = useForm<FormSchemaType>({
+    resolver: zodResolver(formSchema),
+  })
+  const navigate = useNavigate()
 
-  const { handleSubmit } = methods
+  const { handleSubmit, register } = methods
 
-  function handleSubmitForm() {}
+  function handleSubmitForm(data: FormSchemaType) {
+    console.log(data)
+    navigate('/success', { replace: true })
+  }
 
   return (
     <CartContainer onSubmit={handleSubmit(handleSubmitForm)}>
@@ -53,9 +75,21 @@ export function Cart() {
               </div>
             </PaymentTitleContainer>
             <PaymentMethod>
-              <Radio typePayment="credit" description="Cartão de crédito" />
-              <Radio typePayment="debit" description="Cartão de débito" />
-              <Radio typePayment="money" description="Dinheiro" />
+              <Radio
+                typePayment="credit"
+                description="Cartão de crédito"
+                {...register('paymentMethod')}
+              />
+              <Radio
+                typePayment="debit"
+                description="Cartão de débito"
+                {...register('paymentMethod')}
+              />
+              <Radio
+                typePayment="money"
+                description="Dinheiro"
+                {...register('paymentMethod')}
+              />
             </PaymentMethod>
           </PaymentContainer>
         </FormProvider>
@@ -64,9 +98,6 @@ export function Cart() {
       <PreviewContainer>
         <h1>Cafés selecionados</h1>
         <CoffeePreviewContainer>
-          {/* <CoffeePreview />
-          <CoffeePreview /> */}
-
           {cart.map((c) => {
             const coffeeData = dataJSON.coffees.find(
               (coffee) => c.id === coffee.id,

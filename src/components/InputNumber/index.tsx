@@ -15,30 +15,40 @@ export function InputNumber({
   alterInPreviewCart = false,
   idCoffee,
 }: InputNumberProps) {
-  const { cart, updateCart, totalCart } = useContext(CartContext)
+  const { cart, updateCart, totalCart, incrementCoffeeOnCart } =
+    useContext(CartContext)
   function handleIncrementCount() {
     alterQuantityCoffee(quantityCoffee + 1)
     if (alterInPreviewCart) {
-      const value = quantityCoffee
-      const newCart = cart.map((c) => {
-        if (c.id === idCoffee) {
-          return { ...c, quantityCoffees: value + 1 }
-        }
-        return c
-      })
+      // const value = quantityCoffee
+      // const newCart = cart.map((c) => {
+      //   if (c.id === idCoffee) {
+      //     return { ...c, quantityCoffees: value + 1 }
+      //   }
+      //   return c
+      // })
+      // const prices = newCart.map((c) => c.priceCoffee * c.quantityCoffees)
+      // const totalPriceCoffees = prices.reduce((total, value) => {
+      //   return (total += value)
+      // })
+      // const data = {
+      //   cart: newCart,
+      //   totalPriceCoffees,
+      //   totalCart,
+      // }
+      // updateCart(data)
 
-      const prices = newCart.map((c) => c.priceCoffee * c.quantityCoffees)
-      const totalPriceCoffees = prices.reduce((total, value) => {
-        return (total += value)
-      })
+      const newQuantityCoffee = quantityCoffee + 1
 
-      const data = {
-        cart: newCart,
-        totalPriceCoffees,
-        totalCart,
+      const coffee = cart.find((c) => c.id === idCoffee)!
+
+      const newCoffee = {
+        ...coffee,
+        quantityCoffees: newQuantityCoffee,
+        priceCoffee: coffee.priceCoffee * newQuantityCoffee,
       }
 
-      updateCart(data)
+      incrementCoffeeOnCart(newCoffee)
     }
   }
 

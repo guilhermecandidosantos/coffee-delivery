@@ -46,4 +46,14 @@ export const InputsContainer = styled.div`
       box-shadow: 0 0 0 1px ${(props) => props.theme['yellow-dark']};
     }
   }
+
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
 `

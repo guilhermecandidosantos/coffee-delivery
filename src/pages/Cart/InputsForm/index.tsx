@@ -6,10 +6,19 @@ export function InputsForm() {
 
   return (
     <InputsContainer>
-      <input type="text" placeholder="CEP" {...register('zip')} />
+      <input
+        type="text"
+        placeholder="CEP"
+        pattern="\d{5,5}(\d{3,3})?"
+        {...register('zip')}
+      />
       <input type="text" placeholder="Rua" {...register('street')} />
       <div>
-        <input type="text" placeholder="Número" {...register('number')} />
+        <input
+          type="number"
+          placeholder="Número"
+          {...register('number', { valueAsNumber: true })}
+        />
         <input
           type="text"
           placeholder="Complemento"
