@@ -14,13 +14,14 @@ import {
 import { useForm, FormProvider } from 'react-hook-form'
 import { CoffeePreview } from '../../components/CoffeePreview'
 import { InputsForm } from './InputsForm'
-import { Radio } from './Radio'
+import { Radio } from './Radio/index'
 import { useContext } from 'react'
 import { CartContext } from '../../context/CartContext'
 import dataJSON from '../../../data.json'
 import { useNavigate } from 'react-router-dom'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Order } from '../../reducers/cart/reducer'
 
 const formSchema = z.object({
   zip: z.string().min(8),
@@ -36,7 +37,7 @@ const formSchema = z.object({
 type FormSchemaType = z.infer<typeof formSchema>
 
 export function Cart() {
-  const { cart, totalPriceCoffees } = useContext(CartContext)
+  const { cart, totalPriceCoffees, includeOrder } = useContext(CartContext)
   const methods = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
   })
@@ -45,8 +46,24 @@ export function Cart() {
   const { handleSubmit, register } = methods
 
   function handleSubmitForm(data: FormSchemaType) {
-    console.log(data)
-    navigate('/success', { replace: true })
+    const id = new Date().getTime()
+    const order: Order = {
+      id,
+      address: {
+        street: data.street,
+        city: data.city,
+        number: data.number,
+        district: data.district,
+        complement: data.complement,
+        uf: data.uf.toUpperCase(),
+      },
+      coffees: cart,
+      typePayment: data.paymentMethod,
+      totalPrice: totalPriceCoffees + 3.5,
+    }
+    console.log(order)
+    includeOrder(order)
+    navigate(`/${id}/success`, { replace: true })
   }
 
   return (

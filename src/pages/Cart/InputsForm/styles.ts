@@ -15,12 +15,6 @@ export const InputsContainer = styled.div`
     gap: 0.5rem;
   }
 
-  div:first-child {
-    input:last-child {
-      flex: 1;
-    }
-  }
-
   div:last-child {
     input:last-child {
       max-width: 3rem;
@@ -45,6 +39,28 @@ export const InputsContainer = styled.div`
     &:focus {
       box-shadow: 0 0 0 1px ${(props) => props.theme['yellow-dark']};
     }
+  }
+
+  div {
+    display: flex;
+    position: relative;
+    width: 100%;
+    input[name='complement'] {
+      flex: 1;
+      width: 100%;
+    }
+
+    > span {
+      position: absolute;
+      right: 10px;
+      top: 27%;
+      ${texts.fonts.textS};
+      color: ${(props) => props.theme['base-label']};
+    }
+  }
+
+  input[name='uf'] {
+    text-transform: uppercase;
   }
 
   input[type='number']::-webkit-outer-spin-button,

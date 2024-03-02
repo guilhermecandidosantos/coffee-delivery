@@ -15,40 +15,18 @@ export function InputNumber({
   alterInPreviewCart = false,
   idCoffee,
 }: InputNumberProps) {
-  const { cart, updateCart, totalCart, incrementCoffeeOnCart } =
-    useContext(CartContext)
+  const { cart, incrementCoffee, decrementCoffee } = useContext(CartContext)
   function handleIncrementCount() {
     alterQuantityCoffee(quantityCoffee + 1)
     if (alterInPreviewCart) {
-      // const value = quantityCoffee
-      // const newCart = cart.map((c) => {
-      //   if (c.id === idCoffee) {
-      //     return { ...c, quantityCoffees: value + 1 }
-      //   }
-      //   return c
-      // })
-      // const prices = newCart.map((c) => c.priceCoffee * c.quantityCoffees)
-      // const totalPriceCoffees = prices.reduce((total, value) => {
-      //   return (total += value)
-      // })
-      // const data = {
-      //   cart: newCart,
-      //   totalPriceCoffees,
-      //   totalCart,
-      // }
-      // updateCart(data)
+      const coffee = cart.find((c) => c.id === idCoffee)
 
-      const newQuantityCoffee = quantityCoffee + 1
-
-      const coffee = cart.find((c) => c.id === idCoffee)!
-
-      const newCoffee = {
-        ...coffee,
-        quantityCoffees: newQuantityCoffee,
-        priceCoffee: coffee.priceCoffee * newQuantityCoffee,
+      if (coffee) {
+        let { quantityCoffees } = coffee
+        quantityCoffees += 1
+        const data = { ...coffee, quantityCoffees }
+        incrementCoffee(data)
       }
-
-      incrementCoffeeOnCart(newCoffee)
     }
   }
 
@@ -56,26 +34,14 @@ export function InputNumber({
     if (quantityCoffee > 1) {
       alterQuantityCoffee(quantityCoffee - 1)
       if (alterInPreviewCart) {
-        const value = quantityCoffee
-        const newCart = cart.map((c) => {
-          if (c.id === idCoffee) {
-            return { ...c, quantityCoffees: value - 1 }
-          }
-          return c
-        })
+        const coffee = cart.find((c) => c.id === idCoffee)
 
-        const prices = newCart.map((c) => c.priceCoffee * c.quantityCoffees)
-        const totalPriceCoffees = prices.reduce((total, value) => {
-          return (total += value)
-        })
-
-        const data = {
-          cart: newCart,
-          totalPriceCoffees,
-          totalCart,
+        if (coffee) {
+          let { quantityCoffees } = coffee
+          quantityCoffees -= 1
+          const data = { ...coffee, quantityCoffees }
+          decrementCoffee(data)
         }
-
-        updateCart(data)
       }
     }
   }

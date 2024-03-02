@@ -2,7 +2,9 @@ import { useFormContext } from 'react-hook-form'
 import { InputsContainer } from './styles'
 
 export function InputsForm() {
-  const { register } = useFormContext()
+  const { register, watch } = useFormContext()
+
+  const complement = watch('complement')
 
   return (
     <InputsContainer>
@@ -19,11 +21,19 @@ export function InputsForm() {
           placeholder="Número"
           {...register('number', { valueAsNumber: true })}
         />
-        <input
-          type="text"
-          placeholder="Complemento"
-          {...register('complement')}
-        />
+        <div>
+          <input
+            type="text"
+            placeholder="Complemento"
+            {...register('complement')}
+            name="complement"
+          />
+          {String(complement).length === 0 ? (
+            <span>Optional</span>
+          ) : (
+            <span></span>
+          )}
+        </div>
       </div>
       <div>
         <input type="text" placeholder="Bairro" {...register('district')} />

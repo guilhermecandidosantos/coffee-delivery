@@ -1,13 +1,17 @@
 import { CreditCard, Bank, Money } from '@phosphor-icons/react'
 import { RadioContainer } from './styles'
 import { useFormContext } from 'react-hook-form'
+import { forwardRef, LegacyRef } from 'react'
 
 interface RadioProps {
   typePayment: 'credit' | 'debit' | 'money'
   description: 'Cartão de crédito' | 'Cartão de débito' | 'Dinheiro'
 }
 
-export function Radio({ typePayment, description }: RadioProps) {
+export const Radio = forwardRef(function Radio(
+  props: RadioProps,
+  ref: LegacyRef<HTMLInputElement>,
+) {
   const { register, watch } = useFormContext()
 
   const paymentSelected = watch('paymentMethod')
@@ -25,10 +29,15 @@ export function Radio({ typePayment, description }: RadioProps) {
     }
   }
   return (
-    <RadioContainer data-state={paymentSelected === typePayment}>
-      <input type="radio" {...register('paymentMethod')} value={typePayment} />
-      {renderImgPayment(typePayment)}
-      {description}
+    <RadioContainer data-state={paymentSelected === props.typePayment}>
+      <input
+        type="radio"
+        {...register('paymentMethod')}
+        value={props.typePayment}
+        ref={ref}
+      />
+      {renderImgPayment(props.typePayment)}
+      {props.description}
     </RadioContainer>
   )
-}
+})
